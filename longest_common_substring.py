@@ -21,17 +21,32 @@ Now we consider suffixes of different substrings ending at different indexes.
 The maximum length Longest Common Suffix is the longest common substring.
 LCSubStr(X, Y, m, n) = Max(LCSuff(X, Y, i, j)) where 1 <= i <= m and 1 <= j <= n
 '''
-def longest_common_substring(s1,s2,m,n):
-        if m==0 or n==0:
-            return 0
-        elif s1[m-1]==s2[n-1]:
-            length = longest_common_substring(s1,s2,m-1,n-1) + 1
-        else:
-            return max(length, longest_common_substring(s1,s2,m-1,n-1))
+# def LongestCommonSubstring(i,j,length):
+#         if i==0 or j==0:
+#             return length
+#         elif s1[i-1]==s2[j-1]:
+#             length = LongestCommonSubstring(i-1,j-1, length+1)
+#         length = max(length, max(LongestCommonSubstring(i-1,j,0), LongestCommonSubstring(i,j-1,0)))
+#         return length
+def LongestCommonSubstringDP(s1,s2,m,n):
+    dp = [[0 for col in range(n+1)] for row in range(m+1)]
+    length = 0
+    for row in range(m+1):
+        for col in range(n+1):
+            if row==0 or col==0:
+                dp[row][col] = 0
+            elif s1[row-1] == s2[col-1]:
+                dp[row][col] = dp[row-1][col-1] + 1
+                length = max(length, dp[row][col])
+            else:
+                dp[row][col] = 0
+    return length
+
 for _ in range(int(input())):
-    n,m = map(int,input().split())
+    m,n = map(int,input().split())
     s1 = input()
     s2 = input()
-    dp = [[0 for x in range(len(s1))] for y in range(len(s2))]
+    print(LongestCommonSubstringDP(s1,s2,m,n))
+    #dp = [[0 for x in range(len(s1))] for y in range(len(s2))]
     
 
